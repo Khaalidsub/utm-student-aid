@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { LecturersModule } from './lecturers/lecturers.module';
 
 @Module({
-  imports: [LecturersModule],
+  imports: [LecturersModule, MongooseModule.forRoot('mongodb://mongodb/selps')],
   controllers: [AppController],
   providers: [AppService],
 })
