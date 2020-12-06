@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateLecturerDto } from './dto/create-lecturer.dto';
-import { UpdateLecturerDto } from './dto/update-lecturer.dto';
+
+import { Lecturer, LecturerDocument } from './schemas/lecturer.schema';
 
 @Injectable()
 export class LecturersService {
-  create(createLecturerDto: CreateLecturerDto) {
-    return 'This action adds a new lecturer';
+  constructor(
+    @InjectModel(Lecturer.name)
+    private LecturerModel: Model<LecturerDocument>,
+  ) {}
+  create(createSubjectInput: CreateLecturerDto) {
+    const newLecturer = new this.LecturerModel(createSubjectInput);
+
+    return newLecturer.save();
   }
 
   findAll() {
-    return `This action returns all lecturers`;
+    return this.LecturerModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} lecturer`;
+  findOne(id: string) {
+    return this.LecturerModel.findById(id).exec();
   }
 
-  update(id: number, updateLecturerDto: UpdateLecturerDto) {
-    return `This action updates a #${id} lecturer`;
+  update(id: string, data: any) {
+    return this.LecturerModel.findByIdAndUpdate(id, data).exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} lecturer`;
+  remove(id: string) {
+    return this.LecturerModel.findByIdAndDelete(id).exec();
   }
 }
