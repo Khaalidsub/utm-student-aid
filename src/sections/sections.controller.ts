@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { SectionsService } from './sections.service';
 import { CreateSectionDto } from './dto/create-section.dto';
 import { UpdateSectionDto } from './dto/update-section.dto';
@@ -19,16 +27,16 @@ export class SectionsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.sectionsService.findOne(+id);
+    return this.sectionsService.findOne(id);
   }
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateSectionDto: UpdateSectionDto) {
-    return this.sectionsService.update(+id, updateSectionDto);
+    return this.sectionsService.update(id, updateSectionDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.sectionsService.remove(+id);
+    return this.sectionsService.remove(id);
   }
 }

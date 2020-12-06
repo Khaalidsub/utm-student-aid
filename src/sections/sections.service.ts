@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSectionDto } from './dto/create-section.dto';
-import { UpdateSectionDto } from './dto/update-section.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreateSectionDto } from './dto/create-Section.dto';
+
+import { Section, SectionDocument } from './schemas/Section.schema';
 
 @Injectable()
 export class SectionsService {
-  create(createSectionDto: CreateSectionDto) {
-    return 'This action adds a new section';
+  constructor(
+    @InjectModel(Section.name)
+    private SectionModel: Model<SectionDocument>,
+  ) {}
+  create(createSubjectInput: CreateSectionDto) {
+    const newSection = new this.SectionModel(createSubjectInput);
+
+    return newSection.save();
   }
 
   findAll() {
-    return `This action returns all sections`;
+    return this.SectionModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} section`;
+  findOne(id: string) {
+    return this.SectionModel.findById(id).exec();
   }
 
-  update(id: number, updateSectionDto: UpdateSectionDto) {
-    return `This action updates a #${id} section`;
+  update(id: string, data: any) {
+    return this.SectionModel.findByIdAndUpdate(id, data).exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} section`;
+  remove(id: string) {
+    return this.SectionModel.findByIdAndDelete(id).exec();
   }
 }
