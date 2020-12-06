@@ -1,3 +1,5 @@
+import { Department } from 'src/departments/entities/department.entity';
+
 export class Lecturer {
   id: string;
   name: string;
@@ -5,4 +7,5 @@ export class Lecturer {
   website: string;
   building: string;
   room: string;
+  department: Department;
 }
